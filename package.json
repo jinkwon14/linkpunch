@@ -1,0 +1,30 @@
+{
+  "name": "aerolinks",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "echo \"OK\""
+  },
+  "dependencies": {
+    "@fontsource/plus-jakarta-sans": "^5.2.8",
+    "@react-three/drei": "^9.96.3",
+    "@react-three/fiber": "^8.15.15",
+    "framer-motion": "^10.18.0",
+    "next": "14.2.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "three": "^0.160.0",
+    "ua-parser-js": "^1.0.37",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@types/ua-parser-js": "^0.7.39",
+    "typescript": "^5.4.3"
+  }
+}
