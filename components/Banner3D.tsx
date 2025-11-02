@@ -5,7 +5,7 @@ import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Group, MathUtils } from "three";
 
-export type BannerMaterial = "glass" | "metal" | "plate";
+export type BannerMaterial = "glass" | "metal";
 
 export interface BannerData {
   id: string;
@@ -63,57 +63,37 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
 
   const materialElement = useMemo(() => {
     const color = banner.color;
-    switch (banner.material) {
-      case "glass":
-        return (
-          <meshPhysicalMaterial
-            color={color ?? "#eef2ff"}
-            transmission={1}
-            ior={1.2}
-            roughness={0.05}
-            thickness={1}
-            clearcoat={0.85}
-            clearcoatRoughness={0.1}
-            envMapIntensity={1.5}
-          />
-        );
-      case "metal":
-        return (
-          <meshStandardMaterial
-            color={color ?? "#d4d4d8"}
-            metalness={0.95}
-            roughness={0.18}
-            envMapIntensity={1.4}
-          />
-        );
-      case "plate":
-      default:
-        return <meshStandardMaterial color={color ?? "#6366f1"} metalness={0.2} roughness={0.6} />;
-    }
-  }, [banner.material, banner.color]);
+    return (
+      <meshPhysicalMaterial
+        color={color ?? "#d0defd"}
+        metalness={0.92}
+        roughness={0.18}
+        clearcoat={1}
+        clearcoatRoughness={0.08}
+        transmission={0.15}
+        thickness={1.5}
+        ior={1.4}
+        envMapIntensity={2.3}
+      />
+    );
+  }, [banner.color]);
 
   const frontVisible = !isFlippable || !flipped;
   const backVisible = isFlippable && flipped;
-  const emblemSize = dimensions.height * 0.48;
+  const emblemSize = dimensions.height * 0.42;
   const emblem = banner.emblem;
   const circleRadius = emblemSize / 2;
-  const emblemX = -dimensions.width / 2 + dimensions.padding + circleRadius;
+  const emblemX = -dimensions.width / 2 + dimensions.padding * 0.32 + circleRadius;
   const textLeftX = emblem
-    ? emblemX + circleRadius + dimensions.padding * 0.55
-    : -dimensions.width / 2 + dimensions.padding;
+    ? emblemX + circleRadius + dimensions.padding * 0.5
+    : -dimensions.width / 2 + dimensions.padding * 0.82;
   const emblemTexture = useTexture(emblem?.imageUrl ?? "/logos/transparent.png");
   const hasEmblemImage = Boolean(emblem?.imageUrl);
 
   const handleSelect = (event: ThreeEvent<globalThis.MouseEvent>) => {
     event.stopPropagation();
     if (isFlippable) {
-      setFlipped((prev) => {
-        if (prev) {
-          onOpen(banner);
-          return prev;
-        }
-        return true;
-      });
+      setFlipped((prev) => !prev);
     } else {
       onOpen(banner);
     }
@@ -167,12 +147,16 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
             <Text
               position={[textLeftX, isFlippable ? dimensions.height * 0.05 : 0, 0]}
               fontSize={dimensions.titleSize}
-              color="#ffffff"
+              color="#f8fafc"
               anchorX="left"
               anchorY="middle"
               maxWidth={dimensions.width - dimensions.padding * 1.6}
               lineHeight={1.1}
               material-toneMapped={false}
+              outlineWidth={0.007}
+              outlineColor="#0f172a"
+              outlineOpacity={0.38}
+              outlineBlur={0.2}
               fontWeight={600}
             >
               {banner.title}
@@ -187,6 +171,10 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
                 maxWidth={dimensions.width - dimensions.padding * 1.4}
                 lineHeight={1.2}
                 material-toneMapped={false}
+                outlineWidth={0.005}
+                outlineColor="#111827"
+                outlineOpacity={0.32}
+                outlineBlur={0.16}
               >
                 {banner.description}
               </Text>
@@ -200,6 +188,10 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
                 anchorY="middle"
                 maxWidth={dimensions.width - dimensions.padding * 1.4}
                 material-toneMapped={false}
+                outlineWidth={0.0045}
+                outlineColor="#0f172a"
+                outlineOpacity={0.28}
+                outlineBlur={0.12}
               >
                 Tap to flip
               </Text>
@@ -237,11 +229,15 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
               <Text
                 position={[textLeftX, dimensions.height * 0.05, 0]}
                 fontSize={dimensions.titleSize * 0.85}
-                color="#ffffff"
+                color="#f9fafb"
                 anchorX="left"
                 anchorY="middle"
                 maxWidth={dimensions.width - dimensions.padding * 1.5}
                 material-toneMapped={false}
+                outlineWidth={0.007}
+                outlineColor="#0f172a"
+                outlineOpacity={0.38}
+                outlineBlur={0.2}
               >
                 {banner.title}
               </Text>
@@ -255,6 +251,10 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
                   maxWidth={dimensions.width - dimensions.padding * 1.6}
                   lineHeight={1.2}
                   material-toneMapped={false}
+                  outlineWidth={0.005}
+                  outlineColor="#111827"
+                  outlineOpacity={0.32}
+                  outlineBlur={0.16}
                 >
                   {banner.description}
                 </Text>
@@ -267,6 +267,10 @@ export default function Banner3D({ banner, position, dimensions, onOpen }: Banne
                 anchorY="middle"
                 maxWidth={dimensions.width - dimensions.padding * 1.8}
                 material-toneMapped={false}
+                outlineWidth={0.0045}
+                outlineColor="#0f172a"
+                outlineOpacity={0.28}
+                outlineBlur={0.12}
               >
                 Tap to launch
               </Text>

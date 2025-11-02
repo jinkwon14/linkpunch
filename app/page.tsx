@@ -17,7 +17,7 @@ const introBanner: BannerData = {
   material: "glass",
   color: "#e0f2fe",
   flippable: true,
-  emblem: { color: "#6366f1", label: "AL" }
+  emblem: { color: "#1d4ed8", label: "", imageUrl: "/avatar-placeholder.jpg" }
 };
 
 const platformBanners: BannerData[] = [
@@ -26,61 +26,61 @@ const platformBanners: BannerData[] = [
     title: "OnlyFans",
     description: "Nightly photo sets & live studio sessions.",
     url: "https://onlyfans.com/aerolinks",
-    material: "metal",
+    material: "glass",
     color: "#00aff0",
-    emblem: { color: "#0c8bd6", label: "OF" }
+    emblem: { color: "#0c8bd6", label: "", imageUrl: "/logos/onlyfans.png" }
   },
   {
     id: "x-twitter",
     title: "X (Twitter)",
     description: "Real-time teasers and spicy replies.",
     url: "https://twitter.com/aerolinks",
-    material: "metal",
+    material: "glass",
     color: "#1d9bf0",
-    emblem: { color: "#0f78c5", label: "X" }
+    emblem: { color: "#0f78c5", label: "", imageUrl: "/logos/twitter.png" }
   },
   {
     id: "instagram",
     title: "Instagram",
     description: "BTS reels, mood boards, and stories.",
     url: "https://instagram.com/aerolinks",
-    material: "metal",
+    material: "glass",
     color: "#f56040",
-    emblem: { color: "#fd8364", label: "IG" }
+    emblem: { color: "#fd8364", label: "", imageUrl: "/logos/instagram.png" }
   },
   {
     id: "tiktok",
     title: "TikTok",
     description: "Snappy choreo & thirst-trap edits.",
     url: "https://www.tiktok.com/@aerolinks",
-    material: "plate",
+    material: "glass",
     color: "#25f4ee",
-    emblem: { color: "#3ee0ff", label: "TT" }
+    emblem: { color: "#3ee0ff", label: "", imageUrl: "/logos/tiktok.png" }
   },
   {
     id: "youtube",
     title: "YouTube",
     description: "Weekly ASMR vlogs & premiere watch parties.",
     url: "https://youtube.com/aerolinks",
-    material: "metal",
+    material: "glass",
     color: "#ff0033",
-    emblem: { color: "#ff5c6c", label: "YT", imageUrl: "/youtube-logo.png" }
+    emblem: { color: "#ff5c6c", label: "", imageUrl: "/youtube-logo.png" }
   },
   {
     id: "twitch",
     title: "Twitch",
     description: "Interactive build streams every Sunday.",
     url: "https://twitch.tv/aerolinks",
-    material: "metal",
+    material: "glass",
     color: "#9146ff",
-    emblem: { color: "#a871ff", label: "TW" }
+    emblem: { color: "#a871ff", label: "", imageUrl: "/logos/twitch.png" }
   },
   {
     id: "patreon",
     title: "Patreon",
     description: "Behind-the-scenes devlogs & PSD files.",
     url: "https://patreon.com/aerolinks",
-    material: "plate",
+    material: "glass",
     color: "#f96854",
     emblem: { color: "#fb8a75", label: "PT" }
   },
@@ -89,7 +89,7 @@ const platformBanners: BannerData[] = [
     title: "Discord",
     description: "Join the creator collective & daily prompts.",
     url: "https://discord.gg/aerolinks",
-    material: "plate",
+    material: "glass",
     color: "#5865f2",
     emblem: { color: "#7b8bff", label: "DS" }
   }
@@ -116,14 +116,14 @@ interface SceneProps {
 
 function Scene({ items, onOpen, spacing, dimensions, scale, avatarScale }: SceneProps) {
   const offset = ((items.length - 1) / 2) * spacing;
-  const avatarYOffset = offset + spacing * 0.95;
   return (
     <>
       <ambientLight intensity={0.4} />
       <directionalLight position={[5, 7, 5]} intensity={1.2} />
+      <pointLight position={[0, 1.5, 2.8]} intensity={2.6} decay={1.4} />
+      <pointLight position={[-2.2, -1.4, 3]} intensity={1.8} decay={1.6} />
       <Environment preset="city" />
       <group scale={[scale, scale, scale]}>
-        <AvatarBadge position={[0, avatarYOffset, 0]} scale={avatarScale} />
         {items.map((banner, index) => (
           <Banner3D
             key={banner.id}
@@ -192,17 +192,17 @@ function HomePageContent() {
 
   const isMobile = viewportWidth < 640;
   const bannerDimensions = {
-    width: isMobile ? 1.85 : 2.4,
-    height: isMobile ? 0.42 : 0.6,
-    depth: 0.135,
+    width: isMobile ? 1.9 : 2.45,
+    height: isMobile ? 0.44 : 0.64,
+    depth: 0.13,
     radius: isMobile ? 0.12 : 0.18,
     titleSize: isMobile ? 0.16 : 0.21,
     descriptionSize: isMobile ? 0.068 : 0.088,
-    padding: isMobile ? 0.38 : 0.5
+    padding: isMobile ? 0.36 : 0.5
   };
-  const baseSpacing = bannerDimensions.height + (isMobile ? 0.18 : 0.24);
-  const groupScale = isMobile ? 0.64 : 0.7;
-  const avatarScale = isMobile ? 0.78 : 0.92;
+  const baseSpacing = bannerDimensions.height + (isMobile ? 0.17 : 0.24);
+  const groupScale = isMobile ? 0.78 : 0.86;
+  const avatarScale = isMobile ? 0.95 : 1.05;
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
@@ -215,7 +215,7 @@ function HomePageContent() {
           }
         >
           <Canvas
-            camera={{ position: [0, 0.25, isMobile ? 8.6 : 7.4], fov: isMobile ? 56 : 46 }}
+            camera={{ position: [0, 0.35, isMobile ? 6.8 : 6.1], fov: isMobile ? 52 : 44 }}
             style={{ height: "100vh", width: "100vw" }}
           >
             <Scene
